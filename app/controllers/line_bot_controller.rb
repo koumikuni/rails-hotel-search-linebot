@@ -18,6 +18,7 @@ class LineBotController < ApplicationController
         end
       end
     end
+    head :ok
   end
  
   private
