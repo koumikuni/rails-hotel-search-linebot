@@ -75,3 +75,5 @@ gem 'line-bot-api'
 
 gem 'dotenv-rails'
 gem 'httpclient'
+
+gem install "ruby-openai"
