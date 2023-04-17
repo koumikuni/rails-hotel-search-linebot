@@ -15,6 +15,7 @@ class LineBotController < ApplicationController
         case event.type
         when Line::Bot::Event::MessageType::Text
           message = search_and_create_message(event.message['text'])
+          clean_message = remove_unusual_characters(message) # 日常会話で使われない文字を削除
           user_id = event['source']['userId']
           session[user_id] ||= []
           client.reply_message(event['replyToken'], message)
