@@ -8,4 +8,14 @@ module TextHelper
 
     clean_text
   end
+  def remove_dangerous_words(text)
+    dangerous_words = ["{", "}", "<", ">", "script", "alert", "img", "src", "onerror"]
+
+    safe_text = text.dup
+    dangerous_words.each do |word|
+      safe_text.gsub!(/#{word}/i, '')
+    end
+
+    safe_text
+  end
 end
