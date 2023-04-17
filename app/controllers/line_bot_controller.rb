@@ -1,5 +1,6 @@
 class LineBotController < ApplicationController
   protect_from_forgery except: [:callback]
+  include TextHelper  # TextHelperモジュールをインクルード
 
   def callback
     body = request.body.read
