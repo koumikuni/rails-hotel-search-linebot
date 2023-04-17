@@ -14,6 +14,8 @@ class LineBotController < ApplicationController
         case event.type
         when Line::Bot::Event::MessageType::Text
           message = search_and_create_message(event.message['text'])
+          user_id = event['source']['userId']
+          session[user_id] ||= []
           client.reply_message(event['replyToken'], message)
         end
       end
