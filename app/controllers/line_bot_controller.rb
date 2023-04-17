@@ -14,11 +14,18 @@ class LineBotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          message = search_and_create_message(event.message['text'])
-          clean_message = remove_unusual_characters(message) # 日常会話で使われない文字を削除
-          user_id = event['source']['userId']
-          session[user_id] ||= []
-          client.reply_message(event['replyToken'], message)
+          got_message = event.message['text']
+          reply_text = if got_message.length > 100
+                         '文章をもっと短くして'
+                       else
+                         # 100文字以下のメッセージに対する処理をここに書く
+                         clean_message = remove_unusual_characters(got_message) # 日常会話で使われない文字を削除
+                         safe_message = remove_dangerous_words(clean_message) # 危険な単語を削除
+                         user_id = event['source']['userId']
+                         session[user_id] ||= []
+                         reply_text = search_and_create_message(event.message['text'])
+                       end
+          client.reply_message(event['replyToken'], reply_text)
         end
       end
     end
